@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import "./Home.css";
 import blogUrl from "../../axios/config";
 
-interface Post {
+export interface Post {
   userId: number;
   id: number;
   title: string;
