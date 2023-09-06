@@ -1,17 +1,11 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import "./Home.css";
 import blogUrl from "../../axios/config";
-
-export interface Post {
-  userId: number;
-  id: number;
-  title: string;
-  body: string;
-}
+import "./Home.css";
+import { IPost } from "../../interfaces/posts.interfaces";
 
 const Home = () => {
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [posts, setPosts] = useState<IPost[]>([]);
 
   const getPosts = async () => {
     try {

@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import "./Post.css";
 import blogUrl from "../../axios/config";
+import { IPost } from "../../interfaces/posts.interfaces";
 
 const Post = () => {
-  const [post, setPost] = useState<any>({} as any);
-
+  const [post, setPost] = useState<IPost>({} as IPost);
   const { id } = useParams();
 
   const getPost = async () => {

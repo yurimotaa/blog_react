@@ -1,52 +1,73 @@
-import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./NewPost.css";
 import blogUrl from "../../axios/config";
 import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { TDataPost } from "../../interfaces/posts.interfaces";
+import { dataPostSchema } from "../../schemas/posts.schemas";
+import "./NewPost.css";
 
 const NewPost = () => {
   const navigate = useNavigate();
 
-  const [title, setTitle] = useState<string>();
-  const [body, setBody] = useState<string>();
+  const createPost = async (data: TDataPost) => {
+    try {
+      const postData = {
+        ...data,
+        userId: 1,
+      };
 
-  const createPost = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+      await blogUrl.post("/posts", {
+        body: postData,
+      });
 
-    const post = { title, body, userId: 1 };
+      toast.success("Post criado");
 
-    await blogUrl.post("/posts", {
-      body: post,
-    });
-
-    toast.success("Post criado");
-
-    navigate("/");
+      navigate("/");
+    } catch (error) {
+      console.error("Erro ao criar o post:", error);
+      toast.error("Erro ao criar o post");
+    }
   };
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<TDataPost>({
+    resolver: zodResolver(dataPostSchema),
+  });
+
+  const handleFormSubmit = (data: TDataPost) => {
+    createPost(data);
+  };
+
   return (
     <div className="new-post">
       <h2>Crie um novo post</h2>
-      <form onSubmit={(e) => createPost(e)}>
+      <form onSubmit={handleSubmit(handleFormSubmit)}>
         <div className="form-control">
           <label htmlFor="title">Titulo:</label>
           <input
             type="text"
             id="title"
-            name="title"
             placeholder="Digite o título"
-            onChange={(e) => setTitle(e.target.value)}
+            {...register("title")}
           />
+          {errors.title && <p>{errors.title.message}</p>}
         </div>
         <div className="form-control">
           <label htmlFor="body">Conteúdo:</label>
           <textarea
-            name="body"
             id="body"
             placeholder="Digite o conteúdo"
-            onChange={(e) => setBody(e.target.value)}
+            {...register("body")}
           ></textarea>
+          {errors.body && <p>{errors.body.message}</p>}
         </div>
-        <input type="submit" value="Criar Post" className="btn" />
+        <button type="submit" className="btn">
+          Criar
+        </button>
       </form>
     </div>
   );
