@@ -2,9 +2,10 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from "./routes/Home.tsx";
-import NewPost from "./routes/NewPost.tsx";
+import Home from "./routes/home/Home.tsx";
+import NewPost from "./routes/newPost/NewPost.tsx";
 import "./index.css";
+import Post from "./routes/post/Post.tsx";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
       {
         path: "/new",
         element: <NewPost />,
+      },
+      {
+        path: "/posts/:id",
+        element: <Post />,
       },
     ],
   },
