@@ -1,35 +1,17 @@
 import { useNavigate } from "react-router-dom";
-import blogUrl from "../../axios/config";
-import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TPostUpdate } from "../../interfaces/posts.interfaces";
 import { updatePostSchema } from "../../schemas/posts.schemas";
+import { useContext } from "react";
 import { useParams } from "react-router-dom";
+import { PostsContext } from "../../contexts/postsContexts";
 
 const EditPost = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const editPost = async (data: TPostUpdate) => {
-    try {
-      const postData = {
-        ...data,
-        userId: 1,
-      };
-
-      await blogUrl.put(`/posts/${id}`, {
-        body: postData,
-      });
-
-      toast.success("Post editado");
-
-      navigate("/");
-    } catch (error) {
-      console.error("Erro ao editar o post:", error);
-      toast.error("Erro ao editar o post");
-    }
-  };
+  const { editPost } = useContext(PostsContext);
 
   const {
     register,
@@ -40,7 +22,7 @@ const EditPost = () => {
   });
 
   const handleFormSubmit = (data: TPostUpdate) => {
-    editPost(data);
+    editPost(data, id, navigate);
   };
 
   return (

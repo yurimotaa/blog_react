@@ -8,6 +8,7 @@ import "./index.css";
 import Post from "./routes/post/Post.tsx";
 import Admin from "./routes/admin/Admin.tsx";
 import EditPost from "./routes/editPost/EditPost.tsx";
+import { PostsContextProvider } from "./contexts/postsContexts.tsx";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <PostsContextProvider>
+      <RouterProvider router={router} />
+    </PostsContextProvider>
   </React.StrictMode>
 );

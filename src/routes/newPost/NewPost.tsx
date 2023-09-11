@@ -1,34 +1,15 @@
-import { useNavigate } from "react-router-dom";
-import blogUrl from "../../axios/config";
-import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TDataPost } from "../../interfaces/posts.interfaces";
 import { dataPostSchema } from "../../schemas/posts.schemas";
+import { useContext } from "react";
+import { PostsContext } from "../../contexts/postsContexts";
+import { useNavigate } from "react-router-dom";
 import "./NewPost.css";
 
 const NewPost = () => {
+  const { createPost } = useContext(PostsContext);
   const navigate = useNavigate();
-
-  const createPost = async (data: TDataPost) => {
-    try {
-      const postData = {
-        ...data,
-        userId: 1,
-      };
-
-      await blogUrl.post("/posts", {
-        body: postData,
-      });
-
-      toast.success("Post criado");
-
-      navigate("/");
-    } catch (error) {
-      console.error("Erro ao criar o post:", error);
-      toast.error("Erro ao criar o post");
-    }
-  };
 
   const {
     register,
@@ -39,7 +20,7 @@ const NewPost = () => {
   });
 
   const handleFormSubmit = (data: TDataPost) => {
-    createPost(data);
+    createPost(data, navigate);
   };
 
   return (

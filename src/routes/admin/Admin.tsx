@@ -1,31 +1,10 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
-import blogUrl from "../../axios/config";
-import { toast } from "react-toastify";
-import { IPost } from "../../interfaces/posts.interfaces";
+import { useEffect, useContext } from "react";
+import { PostsContext } from "../../contexts/postsContexts";
 import "./Admin.css";
 
 const Admin = () => {
-  const [posts, setPosts] = useState<IPost[]>([]);
-
-  const getPosts = async () => {
-    try {
-      const response = await blogUrl.get("/posts");
-      setPosts(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const deletePost = async (id: number) => {
-    await blogUrl.delete(`/posts/${id}`);
-
-    const filteredPosts = posts.filter((post) => post.id !== id);
-
-    setPosts(filteredPosts);
-
-    toast.success("Post excluído");
-  };
+  const { posts, getPosts, deletePost } = useContext(PostsContext);
 
   useEffect(() => {
     getPosts();

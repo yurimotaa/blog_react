@@ -1,20 +1,10 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
-import blogUrl from "../../axios/config";
+import { useEffect, useContext } from "react";
+import { PostsContext } from "../../contexts/postsContexts";
 import "./Home.css";
-import { IPost } from "../../interfaces/posts.interfaces";
 
 const Home = () => {
-  const [posts, setPosts] = useState<IPost[]>([]);
-
-  const getPosts = async () => {
-    try {
-      const response = await blogUrl.get("/posts");
-      setPosts(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const { getPosts, posts } = useContext(PostsContext);
 
   useEffect(() => {
     getPosts();
