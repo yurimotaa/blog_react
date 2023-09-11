@@ -6,6 +6,7 @@ import Home from "./routes/home/Home.tsx";
 import NewPost from "./routes/newPost/NewPost.tsx";
 import "./index.css";
 import Post from "./routes/post/Post.tsx";
+import Admin from "./routes/admin/Admin.tsx";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
       {
         path: "/posts/:id",
         element: <Post />,
+      },
+      {
+        path: "/admin",
+        element: <Admin />,
       },
     ],
   },

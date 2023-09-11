@@ -16,6 +16,11 @@ const NavBar = () => {
             Novo Post
           </Link>
         </li>
+        <li>
+          <Link to={"/admin"} className="btn">
+            Gerenciar
+          </Link>
+        </li>
       </ul>
     </nav>
   );
