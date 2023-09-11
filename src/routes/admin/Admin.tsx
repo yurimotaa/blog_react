@@ -41,7 +41,7 @@ const Admin = () => {
           <div className="post" key={crypto.randomUUID()}>
             <h2>{post.title}</h2>
             <div className="actions">
-              <Link to={"/"} className="btn edit-btn">
+              <Link to={`/posts/edit/${post.id}`} className="btn edit-btn">
                 Editar Post
               </Link>
               <button
